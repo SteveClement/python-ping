@@ -238,7 +238,6 @@
     ===========================================================================
 """
 
-# TODO make stats collection optional.
 # TODO Remove any calls to time.sleep, to enable extension into larger framework that aren't multi threaded.
 #=============================================================================#
 import os
@@ -310,8 +309,6 @@ def checksum(source_string):
     return answer
 
 
-# TODO Make call to MyStats optional
-# TODO DONE, do_one Usage!
 def do_one(destIP, hostname, timeout, mySeqNumber, numDataBytes,
            myStats=None, quiet=False, ipv6=False):
     """
@@ -351,8 +348,6 @@ def do_one(destIP, hostname, timeout, mySeqNumber, numDataBytes,
         mySocket.close()
         return delay
 
-    # TODO Make calls to MyStats optional
-    # TODO DONE!
     if myStats is not None:
         myStats.pktsSent += 1
 
@@ -376,8 +371,6 @@ def do_one(destIP, hostname, timeout, mySeqNumber, numDataBytes,
                 dataSize, host_addr, icmpSeqNumber, iphTTL, delay)
             )
 
-        # TODO Make calls to MyStats optional
-        # TODO DONE!
         if myStats is not None:
             myStats.pktsRcvd += 1
             myStats.totTime += delay
@@ -597,9 +590,9 @@ def quiet_ping(hostname, timeout=3000, count=3,
     """
     Same as verbose_ping, but the results are returned as tuple
     """
-    # TODO Make call to MyStats optional
+    # TODO Should quiet_ping retain current myStats functionality?
     myStats = MyStats()  # Reset the stats
-    mySeqNumber = 0 # Starting value
+    mySeqNumber = 0  # Starting value
 
     try:
         if ipv6:
@@ -610,14 +603,14 @@ def quiet_ping(hostname, timeout=3000, count=3,
     except socket.gaierror:
         return False
 
-    # TODO Make call to MyStats optional
+    # TODO Should quiet_ping retain current myStats functionality?
     myStats.thisIP = destIP
 
     # This will send packet that we don't care about 0.5 seconds before it starts
     # actually pinging. This is needed in big MAN/LAN networks where you sometimes
     # loose the first packet. (while the switches find the way... :/ )
     if path_finder:
-        # TODO Make call to MyStats optional
+        # TODO Should quiet_ping retain current myStats functionality?
         fakeStats = MyStats()
         do_one(fakeStats, destIP, hostname, timeout,
                mySeqNumber, numDataBytes, quiet=True, ipv6=ipv6)
@@ -636,16 +629,16 @@ def quiet_ping(hostname, timeout=3000, count=3,
         if (MAX_SLEEP > delay):
             time.sleep((MAX_SLEEP - delay) / 1000)
 
-    # TODO Make call to MyStats optional
+    # TODO Should quiet_ping retain current myStats functionality?
     if myStats.pktsSent > 0:
         myStats.fracLoss = (myStats.pktsSent - myStats.pktsRcvd) / myStats.pktsSent
 
-    # TODO Make call to MyStats optional
+    # TODO Should quiet_ping retain current myStats functionality?
     if myStats.pktsRcvd > 0:
         myStats.avrgTime = myStats.totTime / myStats.pktsRcvd
 
     # return tuple(max_rtt, min_rtt, avrg_rtt, percent_lost)
-    # TODO Make call to MyStats optional
+    # TODO Should quiet_ping retain current myStats functionality?
     return myStats.maxTime, myStats.minTime, myStats.avrgTime, myStats.fracLoss
 
 # =============================================================================#
