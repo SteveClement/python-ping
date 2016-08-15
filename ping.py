@@ -291,11 +291,11 @@ def checksum(source_string):
     packed), but this works.
     Network data is big-endian, hosts are typically little-endian
     """
-    if (len(source_string) % 2):
-        source_string += "\x00"
+    if (len(source_string) % 2):  # divide by two.
+        source_string += b"\x00"
     converted = array.array("H", source_string)
     if sys.byteorder == "big":
-        converted.bytewap()
+        converted.byteswap()
     val = sum(converted)
 
     val &= 0xffffffff # Truncate val to 32 bits (a variance from ping.c, which
