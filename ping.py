@@ -6,7 +6,7 @@
 
     Compatibility:
         OS: Linux, Windows, MacOSX
-        Python: 2.6 - 3.5
+        Python: 2.6 - 3.6
 
     Note that due to the usage of RAW sockets root/Administrator
     privileges are requied.
@@ -425,7 +425,7 @@ def quiet_ping(hostname, timeout=3000, count=3,
     while 1:
         delay = single_ping(destIP, hostname, timeout, mySeqNumber,
                             numDataBytes, quiet=True, ipv6=ipv6,
-                            myStats=myStats)
+                            myStats=myStats)[0]
 
         if delay is None:
             delay = 0
