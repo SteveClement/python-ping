@@ -117,7 +117,7 @@ def single_ping(destIP, hostname, timeout, mySeqNumber, numDataBytes,
             mySocket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         except OSError as e:
             if verbose:
-                print("failed. (socket error: '%s')" % str(e))
+                print(("failed. (socket error: '%s')" % str(e)))
                 print('Note that python-ping uses RAW sockets'
                       'and requiers root rights.')
             raise  # raise the original error
@@ -129,7 +129,7 @@ def single_ping(destIP, hostname, timeout, mySeqNumber, numDataBytes,
             mySocket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
         except OSError as e:
             if verbose:
-                print("failed. (socket error: '%s')" % str(e))
+                print(("failed. (socket error: '%s')" % str(e)))
                 print('Note that python-ping uses RAW sockets'
                       'and requires root rights.')
             raise  # raise the original error
@@ -163,9 +163,9 @@ def single_ping(destIP, hostname, timeout, mySeqNumber, numDataBytes,
                     host_addr = hostname
 
             if verbose:
-                print("%d bytes from %s: icmp_seq=%d ttl=%d time=%.2f ms" % (
+                print(("%d bytes from %s: icmp_seq=%d ttl=%d time=%.2f ms" % (
                       dataSize, host_addr, icmpSeqNumber, iphTTL, delay)
-                      )
+                      ))
 
         if myStats is not None:
             myStats.pktsRcvd += 1
@@ -238,10 +238,10 @@ def _send(mySocket, destIP, myID, mySeqNumber, numDataBytes, ipv6=False):
     try:
         mySocket.sendto(packet, (destIP, 1))  # Port number is irrelevant
     except OSError as e:
-        print("General failure (%s)" % str(e))
+        print(("General failure (%s)" % str(e)))
         return
     except socket.error as e:
-        print("General failure (%s)" % str(e))
+        print(("General failure (%s)" % str(e)))
         return
 
     return sendTime
@@ -293,19 +293,19 @@ def _dump_stats(myStats):
     """
     Show stats when pings are done
     """
-    print("\n----%s PYTHON PING Statistics----" % (myStats.thisIP))
+    print(("\n----%s PYTHON PING Statistics----" % (myStats.thisIP)))
 
     if myStats.pktsSent > 0:
         myStats.fracLoss = (myStats.pktsSent - myStats.pktsRcvd) / \
             myStats.pktsSent
 
-    print("%d packets transmitted, %d packets received, %0.1f%% packet loss"
-          % (myStats.pktsSent, myStats.pktsRcvd, 100.0 * myStats.fracLoss))
+    print(("%d packets transmitted, %d packets received, %0.1f%% packet loss"
+          % (myStats.pktsSent, myStats.pktsRcvd, 100.0 * myStats.fracLoss)))
 
     if myStats.pktsRcvd > 0:
-        print("round-trip (ms)  min/avg/max = %0.1f/%0.1f/%0.1f" % (
+        print(("round-trip (ms)  min/avg/max = %0.1f/%0.1f/%0.1f" % (
             myStats.minTime, myStats.totTime/myStats.pktsRcvd, myStats.maxTime
-        ))
+        )))
 
     print('')
     return
@@ -315,7 +315,7 @@ def _signal_handler(signum, frame):
     """ Handle exit via signals """
     global myStats
     _dump_stats(myStats)
-    print("\n(Terminated with signal %d)\n" % (signum))
+    print(("\n(Terminated with signal %d)\n" % (signum)))
     sys.exit(0)
 
 
@@ -359,10 +359,10 @@ def verbose_ping(hostname, timeout=3000, count=3,
             destIP = info[4][0]
         else:
             destIP = socket.gethostbyname(hostname)
-        print("\nPYTHON PING %s (%s): %d data bytes" % (hostname, destIP,
-                                                        numDataBytes))
+        print(("\nPYTHON PING %s (%s): %d data bytes" % (hostname, destIP,
+                                                        numDataBytes)))
     except socket.gaierror as e:
-        print("\nPYTHON PING: Unknown host: %s (%s)" % (hostname, str(e)))
+        print(("\nPYTHON PING: Unknown host: %s (%s)" % (hostname, str(e))))
         print('')
         return
 
